@@ -6,4 +6,3 @@ dist-ssr
 .vercel
 *.tsbuildinfo
 .claude
-.gitignore
