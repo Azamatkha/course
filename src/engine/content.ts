@@ -30,8 +30,26 @@ const files = import.meta.glob("../content/**/*.md", {
   eager: true,
 }) as Record<string, string>;
 
-function bodyFor(courseId: string, slug: string): string | undefined {
+/**
+ * Resolve a lesson's markdown body for a locale.
+ *
+ * Uzbek bodies (when they exist) live at `content/uz/<course>/<slug>.md` and
+ * take precedence when `lang === "uz"`; everything falls back to the default
+ * English body at `content/<course>/<slug>.md`. This lets existing courses be
+ * translated one lesson at a time without breaking anything untranslated.
+ */
+function bodyFor(courseId: string, slug: string, lang: string = "en"): string | undefined {
+  if (lang === "uz") {
+    const localized = files[`../content/uz/${courseId}/${slug}.md`];
+    if (localized != null) return localized;
+  }
   return files[`../content/${courseId}/${slug}.md`];
+}
+
+/** Does a locale-specific translated body exist for this lesson? */
+export function hasLocalizedBody(courseId: string, slug: string, lang: string): boolean {
+  if (lang === "en") return true;
+  return files[`../content/${lang}/${courseId}/${slug}.md`] != null;
 }
 
 export function getCourse(courseId: string): Course | undefined {
@@ -73,12 +91,16 @@ export function courseMinutes(courseId: string): number {
   return courseLessons(courseId).reduce((sum, l) => sum + l.minutes, 0);
 }
 
-export function getLesson(courseId: string, slug: string): LessonRef | undefined {
+export function getLesson(
+  courseId: string,
+  slug: string,
+  lang: string = "en"
+): LessonRef | undefined {
   const list = courseLessons(courseId);
   const idx = list.findIndex((l) => l.lesson.slug === slug);
   if (idx === -1) return undefined;
   const entry = list[idx];
-  const body = bodyFor(courseId, slug);
+  const body = bodyFor(courseId, slug, lang);
   if (body == null) return undefined;
   const prev = idx > 0 ? list[idx - 1] : null;
   const next = idx < list.length - 1 ? list[idx + 1] : null;
@@ -87,7 +109,7 @@ export function getLesson(courseId: string, slug: string): LessonRef | undefined
     section: entry.section,
     lesson: entry.lesson,
     body,
-    minutes: entry.minutes,
+    minutes: readingTime(body),
     index: idx + 1,
     total: list.length,
     prev: prev && { courseId, slug: prev.lesson.slug, title: prev.lesson.title },

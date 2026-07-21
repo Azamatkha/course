@@ -34,7 +34,15 @@ export const coursesUz: Partial<Record<CourseId, CourseL10n>> = {
       },
       keyingi: {
         title: "Keyingi bosqich",
-        description: "Xatoliklar, fayllar, OOP asoslari va Advanced’ga yo‘l xaritasi.",
+        description: "Xatoliklar, fayllar va klasslarga (OOP) kirish.",
+      },
+      amaliy: {
+        title: "Amaliy va o‘rta darajadagi mavzular",
+        description: "Comprehension, JSON/CSV fayllar, virtual muhit, API va debugging.",
+      },
+      "ai-ml": {
+        title: "Sun’iy intellekt sari (ML va LLM)",
+        description: "Mashinaviy o‘qitish, LLM va Python bilan AI’ga sodda kirish.",
       },
     },
     lessons: {
@@ -94,9 +102,54 @@ export const coursesUz: Partial<Record<CourseId, CourseL10n>> = {
           "Xatoliklardan qo‘rqmaslik: try/except bilan ularni ushlash; fayllarni o‘qish va yozish (with), UTF-8.",
       },
       "oop-va-keyingi-qadamlar": {
-        title: "OOP asoslari va keyingi qadamlar",
+        title: "Klasslarga kirish (OOP)",
         description:
-          "Klass va obyekt nima (oddiy misolda), o‘z tipingizni yaratish; so‘ng 0 → Advanced yo‘l xaritasi va yakuniy loyiha.",
+          "Klass va obyekt nima (oddiy misolda), __init__ va metodlar bilan o‘z tipingizni yaratish — OOP poydevori.",
+      },
+      "klasslar-chuqurroq": {
+        title: "Klasslar chuqurroq: meros va dunder metodlar",
+        description:
+          "Meros (klassni qayta ishlatish), super(), __str__ va inkapsulyatsiya — tabiiy his qildiradigan klasslar yozish.",
+      },
+      "comprehension-lambda": {
+        title: "List comprehension va lambda",
+        description:
+          "Ro‘yxatni bir qatorda yasash (comprehension) va kichik anonim funksiyalar (lambda) — map/filter/sorted bilan.",
+      },
+      "json-csv-fayllar": {
+        title: "JSON va CSV fayllar bilan ishlash",
+        description:
+          "Tuzilgan ma’lumotni o‘qish/yozish: json moduli, CSV fayllar va real ma’lumotni xavfsiz saqlash.",
+      },
+      "virtual-muhit-loyiha": {
+        title: "Virtual muhit va loyihani tashkil qilish",
+        description:
+          "venv nega kerak, requirements.txt, loyihani fayllar bo‘yicha tashkil qilish va bog‘liqlik chalkashligidan qochish.",
+      },
+      "api-va-requests": {
+        title: "Internetdan ma’lumot olish (API va requests)",
+        description:
+          "API nima, requests kutubxonasi bilan chaqirish, JSON javobni o‘qish va xatolarni boshqarish.",
+      },
+      "debugging-toza-kod": {
+        title: "Xatolarni topish (debugging) va toza kod",
+        description:
+          "Xato xabarini (traceback) o‘qish, print va breakpoint bilan xato topish va o‘qilishi oson kod odatlari.",
+      },
+      "ml-kirish": {
+        title: "Mashinaviy o‘qitish (ML) ga kirish",
+        description:
+          "Mashinaviy o‘qitish aslida nima (misollardan o‘rganish), asosiy turlari va qayerda ishlatiladi — og‘ir matematikasiz.",
+      },
+      "llm-kirish": {
+        title: "LLM va ChatGPT qanday ishlaydi",
+        description:
+          "Katta til modeli nima, tokenlar va keyingi so‘zni bashorat qilish, nega ‘to‘qib chiqaradi’ — oddiy tilda.",
+      },
+      "python-ai-birinchi-qadam": {
+        title: "Python bilan AI: birinchi amaliy qadam",
+        description:
+          "Python’dan AI modelini chaqirish (g‘oyasi), API kalit, oddiy misol va 0 → Advanced yo‘l xaritasi hamda yakuniy loyiha.",
       },
     },
   },

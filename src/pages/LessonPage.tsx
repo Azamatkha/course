@@ -24,10 +24,10 @@ import { NotFound } from "./NotFound";
 
 export function LessonPage() {
   const { courseId = "", slug = "" } = useParams();
-  const ref = getLesson(courseId, slug);
+  const { t, lang } = useI18n();
+  const ref = getLesson(courseId, slug, lang);
   const { isCompleted, toggleCompleted } = useProgress();
   const { isBookmarked, toggle } = useBookmarks();
-  const { t } = useI18n();
   const loc = useLocalize();
   const formatMinutes = useFormatMinutes();
 

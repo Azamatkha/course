@@ -128,7 +128,7 @@ export const pythonNoldanCourse: Course = {
     {
       id: "keyingi",
       title: "The Next Step",
-      description: "Errors, files, an intro to OOP, and the road to advanced.",
+      description: "Errors, files, and an intro to classes (OOP).",
       lessons: [
         {
           slug: "xatoliklar-va-fayllar",
@@ -140,11 +140,97 @@ export const pythonNoldanCourse: Course = {
         },
         {
           slug: "oop-va-keyingi-qadamlar",
-          title: "Intro to OOP and next steps",
+          title: "Intro to classes (OOP)",
           description:
-            "What a class and object are (in a simple example), building your own type; then a 0 → advanced roadmap and a final project.",
+            "What a class and object are, building your own type with __init__ and methods — the foundation of OOP.",
           difficulty: "intermediate",
-          tags: ["oop", "klass", "obyekt", "loyiha", "yol xaritasi"],
+          tags: ["oop", "klass", "obyekt", "init", "metod"],
+        },
+        {
+          slug: "klasslar-chuqurroq",
+          title: "Classes deeper: inheritance and dunder methods",
+          description:
+            "Inheritance (reusing a class), super(), __str__, and encapsulation — writing classes that feel natural.",
+          difficulty: "intermediate",
+          tags: ["meros", "inheritance", "super", "__str__", "klass"],
+        },
+      ],
+    },
+    {
+      id: "amaliy",
+      title: "Practical & Intermediate Topics",
+      description: "Comprehensions, JSON/CSV files, virtual environments, APIs, and debugging.",
+      lessons: [
+        {
+          slug: "comprehension-lambda",
+          title: "List comprehension and lambda",
+          description:
+            "Building lists in one line with comprehensions, and tiny anonymous functions (lambda) with map/filter/sorted.",
+          difficulty: "intermediate",
+          tags: ["comprehension", "lambda", "map", "filter", "sorted"],
+        },
+        {
+          slug: "json-csv-fayllar",
+          title: "Working with JSON and CSV files",
+          description:
+            "Reading and writing structured data: the json module, CSV files, and safely round-tripping real data.",
+          difficulty: "intermediate",
+          tags: ["json", "csv", "fayl", "malumot", "serializatsiya"],
+        },
+        {
+          slug: "virtual-muhit-loyiha",
+          title: "Virtual environments and project structure",
+          description:
+            "Why venv exists, requirements.txt, organizing a real project into files, and avoiding dependency chaos.",
+          difficulty: "intermediate",
+          tags: ["venv", "virtual muhit", "pip", "requirements", "loyiha"],
+        },
+        {
+          slug: "api-va-requests",
+          title: "Getting data from the internet (APIs & requests)",
+          description:
+            "What an API is, calling one with the requests library, reading JSON responses, and handling errors.",
+          difficulty: "intermediate",
+          tags: ["api", "requests", "internet", "json", "http"],
+        },
+        {
+          slug: "debugging-toza-kod",
+          title: "Finding bugs (debugging) and clean code",
+          description:
+            "Reading error messages (traceback), debugging with print and breakpoints, and habits for readable code.",
+          difficulty: "intermediate",
+          tags: ["debugging", "traceback", "toza kod", "print", "xato"],
+        },
+      ],
+    },
+    {
+      id: "ai-ml",
+      title: "Toward AI (ML & LLMs)",
+      description: "Gentle, beginner-friendly intros to machine learning, LLMs, and AI with Python.",
+      lessons: [
+        {
+          slug: "ml-kirish",
+          title: "Intro to Machine Learning (ML)",
+          description:
+            "What machine learning really is (learning from examples), the main types, and where it fits — no heavy math.",
+          difficulty: "intermediate",
+          tags: ["ml", "mashinaviy oqitish", "sun'iy intellekt", "model", "data"],
+        },
+        {
+          slug: "llm-kirish",
+          title: "How LLMs and ChatGPT work",
+          description:
+            "What a large language model is, tokens and next-word prediction, why they hallucinate — in plain language.",
+          difficulty: "intermediate",
+          tags: ["llm", "chatgpt", "token", "ai", "bashorat"],
+        },
+        {
+          slug: "python-ai-birinchi-qadam",
+          title: "Python + AI: your first practical step",
+          description:
+            "Calling an AI model from Python (the idea), API keys, a simple example, and a 0 → advanced roadmap and final project.",
+          difficulty: "intermediate",
+          tags: ["ai", "python", "api", "openai", "yol xaritasi"],
         },
       ],
     },
