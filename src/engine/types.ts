@@ -17,8 +17,21 @@ export interface Section {
   lessons: LessonMeta[];
 }
 
+/**
+ * Course identifiers. Kept as a widenable string union so new courses are a
+ * pure additive change: append the id here and register the course object in
+ * `engine/content.ts` — nothing else in the engine needs to change.
+ */
+export type CourseId =
+  | "python"
+  | "django"
+  | "fastapi"
+  | "ai-python"
+  | "python-foundations"
+  | "docker-python";
+
 export interface Course {
-  id: "python" | "django" | "fastapi";
+  id: CourseId;
   title: string;
   tagline: string;
   description: string;

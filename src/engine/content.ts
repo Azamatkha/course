@@ -1,10 +1,24 @@
 import { pythonCourse } from "./courses/python";
 import { djangoCourse } from "./courses/django";
 import { fastapiCourse } from "./courses/fastapi";
+import { pythonFoundationsCourse } from "./courses/python-foundations";
+import { aiPythonCourse } from "./courses/ai-python";
+import { dockerPythonCourse } from "./courses/docker-python";
 import type { Course, LessonMeta, LessonRef, Section } from "./types";
 import { readingTime } from "@/lib/utils";
 
-export const courses: Course[] = [pythonCourse, djangoCourse, fastapiCourse];
+/**
+ * Course order = recommended learning order across the platform:
+ * foundations → advanced internals → web frameworks → AI → infrastructure.
+ */
+export const courses: Course[] = [
+  pythonFoundationsCourse,
+  pythonCourse,
+  djangoCourse,
+  fastapiCourse,
+  aiPythonCourse,
+  dockerPythonCourse,
+];
 
 /** All lesson markdown, bundled statically by Vite at build time. */
 const files = import.meta.glob("../content/**/*.md", {

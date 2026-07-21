@@ -5,17 +5,16 @@ import { Card } from "@/components/ui/card";
 import { ProgressBar } from "@/components/ui/progress";
 import { courses, courseMinutes } from "@/engine/content";
 import { useProgress } from "@/engine/progress";
-import { formatMinutes } from "@/lib/utils";
+import { useI18n, useFormatMinutes } from "@/engine/i18n";
 
 export function Courses() {
   const { coursePercent } = useProgress();
+  const { t } = useI18n();
+  const formatMinutes = useFormatMinutes();
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
-      <h1 className="text-3xl font-extrabold tracking-tight">Courses</h1>
-      <p className="mt-2 max-w-2xl text-ink-soft">
-        Three tracks that together cover the advanced Python backend stack.
-        Work through them in order, or jump to what you need.
-      </p>
+      <h1 className="text-3xl font-extrabold tracking-tight">{t("courses.title")}</h1>
+      <p className="mt-2 max-w-2xl text-ink-soft">{t("courses.subtitle")}</p>
 
       <div className="mt-10 space-y-6">
         {courses.map((course, i) => {
@@ -45,18 +44,19 @@ export function Courses() {
                       </p>
                       <p className="mt-4 flex items-center gap-2 text-sm text-ink-faint">
                         <Layers className="h-4 w-4" />
-                        {course.sections.length} sections · {lessonCount} lessons ·{" "}
-                        {formatMinutes(courseMinutes(course.id))} of reading
+                        {course.sections.length} {t("unit.sections")} · {lessonCount}{" "}
+                        {t("unit.lessons")} · {formatMinutes(courseMinutes(course.id))}{" "}
+                        {t("unit.ofReading")}
                       </p>
                     </div>
                     <div className="w-full sm:w-48">
                       <div className="mb-1.5 flex justify-between text-xs text-ink-faint">
-                        <span>Progress</span>
+                        <span>{t("courses.progress")}</span>
                         <span>{coursePercent(course.id)}%</span>
                       </div>
                       <ProgressBar value={coursePercent(course.id)} />
                       <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent">
-                        Open course <ArrowRight className="h-4 w-4" />
+                        {t("courses.open")} <ArrowRight className="h-4 w-4" />
                       </span>
                     </div>
                   </div>

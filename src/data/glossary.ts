@@ -192,4 +192,104 @@ export const glossary: GlossaryTerm[] = [
       "Web Server Gateway Interface — the classic synchronous protocol between servers (Gunicorn) and Python apps (Django, Flask). One worker handles one request at a time; concurrency comes from processes/threads.",
     lesson: "django/request-lifecycle",
   },
+
+  // ---- AI Engineering ----
+  {
+    term: "Token",
+    definition:
+      "A sub-word chunk from a model's fixed vocabulary. LLM cost, context limits, and latency are all measured in tokens, not characters or words (English: ~1 token ≈ 4 chars ≈ 0.75 words).",
+    lesson: "ai-python/tokens-and-embeddings",
+  },
+  {
+    term: "Embedding",
+    definition:
+      "A vector of numbers representing the meaning of text. Texts with similar meaning get similar vectors, enabling semantic search via cosine similarity — the foundation of RAG.",
+    lesson: "ai-python/tokens-and-embeddings",
+  },
+  {
+    term: "RAG",
+    definition:
+      "Retrieval-Augmented Generation — fetching relevant text at query time and putting it in the prompt so the model answers from your private/fresh data instead of its frozen training memory. The main defense against hallucination.",
+    lesson: "ai-python/rag-systems",
+  },
+  {
+    term: "Vector database",
+    definition:
+      "A store that indexes embeddings for fast approximate nearest-neighbor search (HNSW/IVF) with metadata filtering. Powers retrieval at scale — e.g. Chroma, Qdrant, pgvector, Pinecone.",
+    lesson: "ai-python/vector-databases",
+  },
+  {
+    term: "Context window",
+    definition:
+      "The maximum number of tokens (prompt + response) an LLM can consider at once — its short-term memory. Instructions, chat history, retrieved documents, and the answer all share this budget.",
+    lesson: "ai-python/llm-fundamentals",
+  },
+  {
+    term: "Function/tool calling",
+    definition:
+      "A mechanism where the model returns a structured request to call one of your registered functions; your code executes it and feeds the result back. The loop that turns a chat model into an automation or agent.",
+    lesson: "ai-python/structured-outputs-and-tools",
+  },
+  {
+    term: "AI agent",
+    definition:
+      "An LLM in a reason–act–observe loop with tools, choosing its own next action until a goal is met — plus memory and guardrails (step caps, validation, human-in-the-loop for irreversible actions).",
+    lesson: "ai-python/ai-agents",
+  },
+  {
+    term: "Prompt injection",
+    definition:
+      "The 'SQL injection' of AI: untrusted text (user input, a web page, a retrieved doc) smuggles instructions that hijack the model. Mitigate by separating data from instructions, least-privilege tools, and validating output — but assume it can still happen.",
+    lesson: "ai-python/ai-in-production",
+  },
+  {
+    term: "MCP",
+    definition:
+      "Model Context Protocol — an open standard for how apps expose tools, resources, and prompts to any model host. 'USB for AI tools': write a tool once as an MCP server, use it across many hosts.",
+    lesson: "ai-python/langchain-langgraph-mcp",
+  },
+
+  // ---- Docker ----
+  {
+    term: "Container",
+    definition:
+      "An isolated process packaging an app with its dependencies, sharing the host kernel (unlike a VM's full guest OS). Light, fast, and portable — the same box runs identically anywhere Docker runs.",
+    lesson: "docker-python/docker-fundamentals",
+  },
+  {
+    term: "Image (Docker)",
+    definition:
+      "A read-only template built from cached, shareable layers. You run an image to create a container; one image can spawn many containers (template vs instance).",
+    lesson: "docker-python/docker-fundamentals",
+  },
+  {
+    term: "Dockerfile",
+    definition:
+      "A recipe of instructions (FROM, RUN, COPY, CMD…) that builds an image, each adding a cached layer. Ordering stable deps before volatile code is the key to fast rebuilds.",
+    lesson: "docker-python/images-and-dockerfile",
+  },
+  {
+    term: "Volume",
+    definition:
+      "Persistent storage that outlives a container's ephemeral filesystem. Named volumes suit production data (databases); bind mounts map a host directory for live-editing code in development.",
+    lesson: "docker-python/volumes-and-networks",
+  },
+  {
+    term: "Docker Compose",
+    definition:
+      "A tool that defines a multi-container stack in one YAML file and runs it with a single command, auto-wiring an internal network (service-name DNS), container names, and named volumes.",
+    lesson: "docker-python/docker-compose",
+  },
+  {
+    term: "Multi-stage build",
+    definition:
+      "A Dockerfile with multiple FROM stages: a heavy builder compiles/installs, and the final slim stage copies only the artifacts — shipping the cake, not the kitchen, for far smaller, safer images.",
+    lesson: "docker-python/multi-stage-and-optimization",
+  },
+  {
+    term: "Healthcheck",
+    definition:
+      "A command Docker runs periodically to mark a container healthy/unhealthy (readiness). Compose's depends_on + service_healthy uses it so an app waits for a database that is actually ready, not just started.",
+    lesson: "docker-python/debugging-and-healthchecks",
+  },
 ];

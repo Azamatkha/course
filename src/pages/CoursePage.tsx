@@ -5,13 +5,15 @@ import { DifficultyBadge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress";
 import { getCourse, courseLessons, courseMinutes } from "@/engine/content";
 import { useProgress } from "@/engine/progress";
-import { formatMinutes } from "@/lib/utils";
+import { useI18n, useFormatMinutes } from "@/engine/i18n";
 import { NotFound } from "./NotFound";
 
 export function CoursePage() {
   const { courseId = "" } = useParams();
   const course = getCourse(courseId);
   const { isCompleted, coursePercent } = useProgress();
+  const { t } = useI18n();
+  const formatMinutes = useFormatMinutes();
 
   if (!course) return <NotFound />;
   const lessons = courseLessons(course.id);
@@ -31,9 +33,12 @@ export function CoursePage() {
       <div className="mt-6 max-w-md">
         <div className="mb-1.5 flex justify-between text-sm text-ink-soft">
           <span>
-            {lessons.length} lessons · {formatMinutes(courseMinutes(course.id))}
+            {lessons.length} {t("unit.lessons")} ·{" "}
+            {formatMinutes(courseMinutes(course.id))}
           </span>
-          <span>{coursePercent(course.id)}% complete</span>
+          <span>
+            {coursePercent(course.id)}% {t("course.completeSuffix")}
+          </span>
         </div>
         <ProgressBar value={coursePercent(course.id)} />
       </div>
@@ -72,7 +77,8 @@ export function CoursePage() {
                         </p>
                         <p className="mt-2 flex items-center gap-1.5 text-xs text-ink-faint">
                           <Clock className="h-3.5 w-3.5" />
-                          {formatMinutes(minutesBySlug.get(lesson.slug) ?? 0)} read
+                          {formatMinutes(minutesBySlug.get(lesson.slug) ?? 0)}{" "}
+                          {t("unit.read")}
                         </p>
                       </div>
                     </Card>

@@ -112,6 +112,71 @@ body {
   @apply max-w-full rounded-xl;
 }
 
+/* ---------- Callout / alert boxes (GitHub-style) ---------- */
+.prose-lesson .callout {
+  @apply my-5 rounded-xl border px-4 py-3;
+  border-left-width: 4px;
+}
+.prose-lesson .callout-title {
+  @apply mb-1 flex items-center gap-2 text-sm font-semibold;
+  margin-top: 0;
+}
+.prose-lesson .callout-body > :first-child {
+  margin-top: 0;
+}
+.prose-lesson .callout-body > * + * {
+  margin-top: 0.7em;
+}
+.prose-lesson .callout-note {
+  @apply border-sky-200 bg-sky-50/60 dark:border-sky-900 dark:bg-sky-950/30;
+  border-left-color: rgb(2 132 199);
+}
+.prose-lesson .callout-note .callout-title {
+  @apply text-sky-700 dark:text-sky-300;
+}
+.prose-lesson .callout-tip {
+  @apply border-emerald-200 bg-emerald-50/60 dark:border-emerald-900 dark:bg-emerald-950/30;
+  border-left-color: rgb(5 150 105);
+}
+.prose-lesson .callout-tip .callout-title {
+  @apply text-emerald-700 dark:text-emerald-300;
+}
+.prose-lesson .callout-warning,
+.prose-lesson .callout-caution {
+  @apply border-amber-200 bg-amber-50/60 dark:border-amber-900 dark:bg-amber-950/30;
+  border-left-color: rgb(217 119 6);
+}
+.prose-lesson .callout-warning .callout-title,
+.prose-lesson .callout-caution .callout-title {
+  @apply text-amber-700 dark:text-amber-300;
+}
+.prose-lesson .callout-important {
+  @apply border-violet-200 bg-violet-50/60 dark:border-violet-900 dark:bg-violet-950/30;
+  border-left-color: rgb(124 58 237);
+}
+.prose-lesson .callout-important .callout-title {
+  @apply text-violet-700 dark:text-violet-300;
+}
+
+/* ---------- Long-article readability polish ---------- */
+.prose-lesson h2 {
+  scroll-margin-top: 5.5rem;
+}
+.prose-lesson h3,
+.prose-lesson h4 {
+  scroll-margin-top: 5.5rem;
+}
+/* Tighter, more legible lists in dense technical prose */
+.prose-lesson li > ul,
+.prose-lesson li > ol {
+  margin-top: 0.4em;
+}
+/* Give the first heading a little breathing room from the meta header */
+.prose-lesson > h2:first-child,
+.prose-lesson > h3:first-child {
+  margin-top: 0.5em;
+}
+
 /* Scrollbars */
 * {
   scrollbar-width: thin;

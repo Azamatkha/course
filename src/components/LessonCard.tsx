@@ -2,14 +2,16 @@ import { Link } from "react-router-dom";
 import { BookMarked, CheckCircle2, Clock } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge, DifficultyBadge } from "@/components/ui/badge";
-import { formatMinutes } from "@/lib/utils";
 import { useProgress } from "@/engine/progress";
 import { useBookmarks } from "@/engine/bookmarks";
+import { useI18n, useFormatMinutes } from "@/engine/i18n";
 import type { FlatLesson } from "@/engine/content";
 
 export function LessonCard({ entry }: { entry: FlatLesson }) {
   const { isCompleted } = useProgress();
   const { isBookmarked } = useBookmarks();
+  const { t } = useI18n();
+  const formatMinutes = useFormatMinutes();
   const done = isCompleted(entry.id);
   const marked = isBookmarked(entry.id);
 
@@ -32,7 +34,7 @@ export function LessonCard({ entry }: { entry: FlatLesson }) {
         </p>
         <p className="mt-3 flex items-center gap-1.5 text-xs text-ink-faint">
           <Clock className="h-3.5 w-3.5" />
-          {formatMinutes(entry.minutes)} read
+          {formatMinutes(entry.minutes)} {t("unit.read")}
         </p>
       </Card>
     </Link>

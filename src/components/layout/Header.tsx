@@ -12,18 +12,22 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/engine/theme";
+import { useI18n } from "@/engine/i18n";
+import type { DictKey } from "@/engine/i18n/en";
 import { Button } from "@/components/ui/button";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
-const nav = [
-  { to: "/courses", label: "Courses" },
-  { to: "/progress", label: "Progress", icon: TrendingUp },
-  { to: "/bookmarks", label: "Bookmarks", icon: BookMarked },
-  { to: "/glossary", label: "Glossary" },
-  { to: "/about", label: "About" },
+const nav: { to: string; key: DictKey; icon?: typeof TrendingUp }[] = [
+  { to: "/courses", key: "nav.courses" },
+  { to: "/progress", key: "nav.progress", icon: TrendingUp },
+  { to: "/bookmarks", key: "nav.bookmarks", icon: BookMarked },
+  { to: "/glossary", key: "nav.glossary" },
+  { to: "/about", key: "nav.about" },
 ];
 
 export function Header() {
   const { theme, toggle } = useTheme();
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
@@ -46,7 +50,7 @@ export function Header() {
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink text-surface">
             <GraduationCap className="h-5 w-5" />
           </span>
-          <span className="text-lg">PyForge</span>
+          <span className="text-lg">{t("brand.name")}</span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
@@ -63,7 +67,7 @@ export function Header() {
                 )
               }
             >
-              {item.label}
+              {t(item.key)}
             </NavLink>
           ))}
         </nav>
@@ -74,10 +78,10 @@ export function Header() {
             size="sm"
             onClick={() => navigate("/search")}
             className="hidden gap-2 text-ink-soft sm:inline-flex"
-            aria-label="Search"
+            aria-label={t("nav.search")}
           >
             <Search className="h-4 w-4" />
-            <span>Search</span>
+            <span>{t("nav.search")}</span>
             <kbd className="rounded border border-line bg-surface-sunken px-1.5 font-mono text-[10px] text-ink-faint">
               Ctrl K
             </kbd>
@@ -87,15 +91,16 @@ export function Header() {
             size="icon"
             onClick={() => navigate("/search")}
             className="sm:hidden"
-            aria-label="Search"
+            aria-label={t("nav.search")}
           >
             <Search className="h-4 w-4" />
           </Button>
+          <LanguageSwitcher />
           <Button
             variant="ghost"
             size="icon"
             onClick={toggle}
-            aria-label="Toggle theme"
+            aria-label={t("nav.toggleTheme")}
           >
             {theme === "dark" ? (
               <Sun className="h-4 w-4" />
@@ -108,7 +113,7 @@ export function Header() {
             size="icon"
             className="md:hidden"
             onClick={() => setOpen((o) => !o)}
-            aria-label="Menu"
+            aria-label={t("nav.menu")}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
@@ -129,7 +134,7 @@ export function Header() {
                 )
               }
             >
-              {item.label}
+              {t(item.key)}
             </NavLink>
           ))}
         </nav>

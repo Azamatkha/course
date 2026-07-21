@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/engine/i18n";
 
 interface TocItem {
   id: string;
@@ -41,6 +42,7 @@ export function extractToc(markdown: string): TocItem[] {
 export function TableOfContents({ markdown }: { markdown: string }) {
   const items = useMemo(() => extractToc(markdown), [markdown]);
   const [active, setActive] = useState<string | null>(null);
+  const { t } = useI18n();
 
   useEffect(() => {
     const headings = items
@@ -65,9 +67,9 @@ export function TableOfContents({ markdown }: { markdown: string }) {
   if (items.length === 0) return null;
 
   return (
-    <nav aria-label="Table of contents" className="text-sm">
+    <nav aria-label={t("lesson.onThisPage")} className="text-sm">
       <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-ink-faint">
-        On this page
+        {t("lesson.onThisPage")}
       </p>
       <ul className="space-y-1 border-l border-line">
         {items.map((item) => (

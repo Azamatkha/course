@@ -1,6 +1,8 @@
 import { type HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 import type { Difficulty } from "@/engine/types";
+import { useI18n } from "@/engine/i18n";
+import type { DictKey } from "@/engine/i18n/en";
 
 export function Badge({
   className,
@@ -29,7 +31,9 @@ const difficultyStyles: Record<Difficulty, string> = {
 };
 
 export function DifficultyBadge({ level }: { level: Difficulty }) {
+  const { t } = useI18n();
+  const key = `difficulty.${level}` as DictKey;
   return (
-    <Badge className={cn("capitalize", difficultyStyles[level])}>{level}</Badge>
+    <Badge className={cn("capitalize", difficultyStyles[level])}>{t(key)}</Badge>
   );
 }

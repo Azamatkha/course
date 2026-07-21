@@ -5,6 +5,7 @@ import { ProgressBar } from "@/components/ui/progress";
 import { LessonCard } from "@/components/LessonCard";
 import { allLessons, courses } from "@/engine/content";
 import { useProgress } from "@/engine/progress";
+import { useI18n } from "@/engine/i18n";
 
 export function ProgressPage() {
   const {
@@ -15,6 +16,7 @@ export function ProgressPage() {
     coursePercent,
     resetProgress,
   } = useProgress();
+  const { t } = useI18n();
 
   const lessons = allLessons();
   const completedEntries = lessons
@@ -26,7 +28,7 @@ export function ProgressPage() {
     );
 
   const handleReset = () => {
-    if (window.confirm("Reset all progress? This cannot be undone.")) {
+    if (window.confirm(t("progress.resetConfirm"))) {
       resetProgress();
     }
   };
@@ -35,20 +37,18 @@ export function ProgressPage() {
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight">Your progress</h1>
-          <p className="mt-2 text-ink-soft">
-            Stored locally in this browser — nothing leaves your device.
-          </p>
+          <h1 className="text-3xl font-extrabold tracking-tight">{t("progress.title")}</h1>
+          <p className="mt-2 text-ink-soft">{t("progress.subtitle")}</p>
         </div>
         <Button variant="outline" size="sm" onClick={handleReset}>
-          <RotateCcw className="h-4 w-4" /> Reset progress
+          <RotateCcw className="h-4 w-4" /> {t("progress.reset")}
         </Button>
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
         <Card className="p-6">
           <p className="flex items-center gap-2 text-sm text-ink-soft">
-            <Trophy className="h-4 w-4 text-amber-500" /> Overall completion
+            <Trophy className="h-4 w-4 text-amber-500" /> {t("progress.overall")}
           </p>
           <p className="mt-1 text-4xl font-bold">
             {totalCount ? Math.round((completedCount / totalCount) * 100) : 0}%
@@ -58,25 +58,28 @@ export function ProgressPage() {
             value={totalCount ? (completedCount / totalCount) * 100 : 0}
           />
           <p className="mt-2 text-sm text-ink-faint">
-            {completedCount} of {totalCount} lessons completed
+            {t("progress.completedOf", { done: completedCount, total: totalCount })}
           </p>
         </Card>
         <Card className="p-6">
           <p className="flex items-center gap-2 text-sm text-ink-soft">
-            <Flame className="h-4 w-4 text-orange-500" /> Daily streak
+            <Flame className="h-4 w-4 text-orange-500" /> {t("home.stat.streak")}
           </p>
           <p className="mt-1 text-4xl font-bold">
-            {streak} day{streak === 1 ? "" : "s"}
+            {streak} {streak === 1 ? t("unit.day") : t("unit.days")}
           </p>
           <p className="mt-4 text-sm text-ink-faint">
-            {state.activeDays.length} active learning day
-            {state.activeDays.length === 1 ? "" : "s"} total. Open any lesson to
-            log today.
+            {t(
+              state.activeDays.length === 1
+                ? "progress.activeDay"
+                : "progress.activeDays",
+              { n: state.activeDays.length }
+            )}
           </p>
         </Card>
       </div>
 
-      <h2 className="mt-12 text-xl font-bold tracking-tight">By course</h2>
+      <h2 className="mt-12 text-xl font-bold tracking-tight">{t("progress.byCourse")}</h2>
       <div className="mt-4 space-y-3">
         {courses.map((course) => (
           <Card key={course.id} className="flex items-center gap-6 p-5">
@@ -92,13 +95,10 @@ export function ProgressPage() {
       </div>
 
       <h2 className="mt-12 text-xl font-bold tracking-tight">
-        Recently completed
+        {t("progress.recentlyCompleted")}
       </h2>
       {completedEntries.length === 0 ? (
-        <p className="mt-4 text-ink-soft">
-          Nothing completed yet. Open a lesson and hit “Mark complete” when
-          you're done.
-        </p>
+        <p className="mt-4 text-ink-soft">{t("progress.nothingCompleted")}</p>
       ) : (
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {completedEntries.slice(0, 9).map((entry) => (

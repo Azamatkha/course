@@ -17,7 +17,8 @@ import { ReadingProgress } from "@/components/ReadingProgress";
 import { getLesson } from "@/engine/content";
 import { recordVisit, useProgress } from "@/engine/progress";
 import { useBookmarks } from "@/engine/bookmarks";
-import { cn, formatMinutes } from "@/lib/utils";
+import { useI18n, useFormatMinutes } from "@/engine/i18n";
+import { cn } from "@/lib/utils";
 import { NotFound } from "./NotFound";
 
 export function LessonPage() {
@@ -25,6 +26,8 @@ export function LessonPage() {
   const ref = getLesson(courseId, slug);
   const { isCompleted, toggleCompleted } = useProgress();
   const { isBookmarked, toggle } = useBookmarks();
+  const { t } = useI18n();
+  const formatMinutes = useFormatMinutes();
 
   const lessonId = `${courseId}/${slug}`;
 
@@ -50,7 +53,7 @@ export function LessonPage() {
           {/* Breadcrumb */}
           <nav className="mb-6 flex flex-wrap items-center gap-1.5 text-sm text-ink-faint">
             <Link to="/courses" className="hover:text-ink">
-              Courses
+              {t("lesson.breadcrumbCourses")}
             </Link>
             <ChevronRight className="h-3.5 w-3.5" />
             <Link to={`/courses/${ref.course.id}`} className="hover:text-ink">
@@ -72,10 +75,10 @@ export function LessonPage() {
               <DifficultyBadge level={ref.lesson.difficulty} />
               <span className="flex items-center gap-1.5 text-sm text-ink-faint">
                 <Clock className="h-4 w-4" />
-                {formatMinutes(ref.minutes)} read
+                {formatMinutes(ref.minutes)} {t("unit.read")}
               </span>
               <span className="text-sm text-ink-faint">
-                Lesson {ref.index} of {ref.total}
+                {t("lesson.of", { index: ref.index, total: ref.total })}
               </span>
               <span className="ml-auto flex gap-2">
                 <Button
@@ -87,7 +90,7 @@ export function LessonPage() {
                   <BookMarked
                     className={cn("h-4 w-4", marked && "fill-accent text-accent")}
                   />
-                  {marked ? "Bookmarked" : "Bookmark"}
+                  {marked ? t("lesson.bookmarked") : t("lesson.bookmark")}
                 </Button>
                 <Button
                   variant={done ? "secondary" : "primary"}
@@ -97,7 +100,7 @@ export function LessonPage() {
                   <CheckCircle2
                     className={cn("h-4 w-4", done && "text-emerald-500")}
                   />
-                  {done ? "Completed" : "Mark complete"}
+                  {done ? t("lesson.completed") : t("lesson.markComplete")}
                 </Button>
               </span>
             </div>
@@ -113,7 +116,7 @@ export function LessonPage() {
                 className="group rounded-2xl border border-line bg-surface-raised p-5 transition-all hover:-translate-y-0.5 hover:shadow-md"
               >
                 <p className="flex items-center gap-1.5 text-xs text-ink-faint">
-                  <ArrowLeft className="h-3.5 w-3.5" /> Previous
+                  <ArrowLeft className="h-3.5 w-3.5" /> {t("lesson.previous")}
                 </p>
                 <p className="mt-1 font-semibold group-hover:text-accent">
                   {ref.prev.title}
@@ -128,7 +131,7 @@ export function LessonPage() {
                 className="group rounded-2xl border border-line bg-surface-raised p-5 text-right transition-all hover:-translate-y-0.5 hover:shadow-md"
               >
                 <p className="flex items-center justify-end gap-1.5 text-xs text-ink-faint">
-                  Next <ArrowRight className="h-3.5 w-3.5" />
+                  {t("lesson.next")} <ArrowRight className="h-3.5 w-3.5" />
                 </p>
                 <p className="mt-1 font-semibold group-hover:text-accent">
                   {ref.next.title}
