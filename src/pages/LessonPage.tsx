@@ -18,6 +18,7 @@ import { getLesson } from "@/engine/content";
 import { recordVisit, useProgress } from "@/engine/progress";
 import { useBookmarks } from "@/engine/bookmarks";
 import { useI18n, useFormatMinutes } from "@/engine/i18n";
+import { useLocalize } from "@/engine/localize";
 import { cn } from "@/lib/utils";
 import { NotFound } from "./NotFound";
 
@@ -27,6 +28,7 @@ export function LessonPage() {
   const { isCompleted, toggleCompleted } = useProgress();
   const { isBookmarked, toggle } = useBookmarks();
   const { t } = useI18n();
+  const loc = useLocalize();
   const formatMinutes = useFormatMinutes();
 
   const lessonId = `${courseId}/${slug}`;
@@ -39,6 +41,9 @@ export function LessonPage() {
   if (!ref) return <NotFound />;
   const done = isCompleted(lessonId);
   const marked = isBookmarked(lessonId);
+  const lc = loc.course(ref.course);
+  const ls = loc.section(ref.course.id, ref.section);
+  const ll = loc.lesson(ref.course.id, ref.lesson);
 
   return (
     <>
@@ -57,19 +62,19 @@ export function LessonPage() {
             </Link>
             <ChevronRight className="h-3.5 w-3.5" />
             <Link to={`/courses/${ref.course.id}`} className="hover:text-ink">
-              {ref.course.title}
+              {lc.title}
             </Link>
             <ChevronRight className="h-3.5 w-3.5" />
-            <span className="text-ink-soft">{ref.section.title}</span>
+            <span className="text-ink-soft">{ls.title}</span>
           </nav>
 
           {/* Meta header */}
           <header className="mb-8 border-b border-line pb-8">
             <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
-              {ref.lesson.title}
+              {ll.title}
             </h1>
             <p className="mt-3 text-lg leading-relaxed text-ink-soft">
-              {ref.lesson.description}
+              {ll.description}
             </p>
             <div className="mt-5 flex flex-wrap items-center gap-3">
               <DifficultyBadge level={ref.lesson.difficulty} />
@@ -119,7 +124,7 @@ export function LessonPage() {
                   <ArrowLeft className="h-3.5 w-3.5" /> {t("lesson.previous")}
                 </p>
                 <p className="mt-1 font-semibold group-hover:text-accent">
-                  {ref.prev.title}
+                  {loc.lessonTitle(ref.prev.courseId, ref.prev.slug, ref.prev.title)}
                 </p>
               </Link>
             ) : (
@@ -134,7 +139,7 @@ export function LessonPage() {
                   {t("lesson.next")} <ArrowRight className="h-3.5 w-3.5" />
                 </p>
                 <p className="mt-1 font-semibold group-hover:text-accent">
-                  {ref.next.title}
+                  {loc.lessonTitle(ref.next.courseId, ref.next.slug, ref.next.title)}
                 </p>
               </Link>
             )}

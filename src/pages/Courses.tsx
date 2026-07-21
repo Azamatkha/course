@@ -6,10 +6,12 @@ import { ProgressBar } from "@/components/ui/progress";
 import { courses, courseMinutes } from "@/engine/content";
 import { useProgress } from "@/engine/progress";
 import { useI18n, useFormatMinutes } from "@/engine/i18n";
+import { useLocalize } from "@/engine/localize";
 
 export function Courses() {
   const { coursePercent } = useProgress();
   const { t } = useI18n();
+  const loc = useLocalize();
   const formatMinutes = useFormatMinutes();
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
@@ -22,6 +24,7 @@ export function Courses() {
             (n, s) => n + s.lessons.length,
             0
           );
+          const lc = loc.course(course);
           return (
             <motion.div
               key={course.id}
@@ -34,13 +37,13 @@ export function Courses() {
                   <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
                     <div className="max-w-2xl">
                       <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-accent">
-                        {course.level}
+                        {lc.level}
                       </p>
                       <h2 className="text-2xl font-bold tracking-tight group-hover:text-accent">
-                        {course.title}
+                        {lc.title}
                       </h2>
                       <p className="mt-2 leading-relaxed text-ink-soft">
-                        {course.description}
+                        {lc.description}
                       </p>
                       <p className="mt-4 flex items-center gap-2 text-sm text-ink-faint">
                         <Layers className="h-4 w-4" />

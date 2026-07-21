@@ -1,3 +1,4 @@
+import { pythonNoldanCourse } from "./courses/python-noldan";
 import { pythonCourse } from "./courses/python";
 import { djangoCourse } from "./courses/django";
 import { fastapiCourse } from "./courses/fastapi";
@@ -9,9 +10,11 @@ import { readingTime } from "@/lib/utils";
 
 /**
  * Course order = recommended learning order across the platform:
- * foundations → advanced internals → web frameworks → AI → infrastructure.
+ * absolute-beginner (Uzbek) → foundations → advanced internals →
+ * web frameworks → AI → infrastructure.
  */
 export const courses: Course[] = [
+  pythonNoldanCourse,
   pythonFoundationsCourse,
   pythonCourse,
   djangoCourse,

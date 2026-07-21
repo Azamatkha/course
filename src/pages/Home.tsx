@@ -16,6 +16,7 @@ import { LessonCard } from "@/components/LessonCard";
 import { allLessons, courses, courseMinutes } from "@/engine/content";
 import { useProgress } from "@/engine/progress";
 import { useI18n, useFormatMinutes } from "@/engine/i18n";
+import { useLocalize } from "@/engine/localize";
 
 const fade = {
   initial: { opacity: 0, y: 14 },
@@ -26,6 +27,7 @@ export function Home() {
   const { state, streak, completedCount, totalCount, coursePercent } =
     useProgress();
   const { t } = useI18n();
+  const loc = useLocalize();
   const formatMinutes = useFormatMinutes();
   const tips = [t("home.tip1"), t("home.tip2"), t("home.tip3"), t("home.tip4")];
 
@@ -138,7 +140,9 @@ export function Home() {
         </h2>
         <p className="mb-5 text-sm text-ink-soft">{t("home.roadmapHint")}</p>
         <div className="grid gap-4 lg:grid-cols-3">
-          {courses.map((course, i) => (
+          {courses.map((course, i) => {
+            const lc = loc.course(course);
+            return (
             <Link key={course.id} to={`/courses/${course.id}`}>
               <Card className="group h-full p-6 transition-all hover:-translate-y-0.5 hover:shadow-md">
                 <div className="mb-3 flex items-center justify-between">
@@ -146,13 +150,13 @@ export function Home() {
                     {i + 1}
                   </span>
                   <span className="text-xs font-medium text-ink-faint">
-                    {course.level}
+                    {lc.level}
                   </span>
                 </div>
                 <h3 className="text-lg font-bold tracking-tight group-hover:text-accent">
-                  {course.title}
+                  {lc.title}
                 </h3>
-                <p className="mt-1 text-sm text-ink-soft">{course.tagline}</p>
+                <p className="mt-1 text-sm text-ink-soft">{lc.tagline}</p>
                 <div className="mt-4 flex items-center justify-between text-xs text-ink-faint">
                   <span>
                     {course.sections.reduce((n, s) => n + s.lessons.length, 0)}{" "}
@@ -163,7 +167,8 @@ export function Home() {
                 <ProgressBar className="mt-2" value={coursePercent(course.id)} />
               </Card>
             </Link>
-          ))}
+            );
+          })}
         </div>
       </motion.section>
 

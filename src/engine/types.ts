@@ -28,7 +28,8 @@ export type CourseId =
   | "fastapi"
   | "ai-python"
   | "python-foundations"
-  | "docker-python";
+  | "docker-python"
+  | "python-noldan";
 
 export interface Course {
   id: CourseId;

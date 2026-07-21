@@ -6,6 +6,7 @@ import { LessonCard } from "@/components/LessonCard";
 import { allLessons, courses } from "@/engine/content";
 import { useProgress } from "@/engine/progress";
 import { useI18n } from "@/engine/i18n";
+import { useLocalize } from "@/engine/localize";
 
 export function ProgressPage() {
   const {
@@ -17,6 +18,7 @@ export function ProgressPage() {
     resetProgress,
   } = useProgress();
   const { t } = useI18n();
+  const loc = useLocalize();
 
   const lessons = allLessons();
   const completedEntries = lessons
@@ -84,7 +86,7 @@ export function ProgressPage() {
         {courses.map((course) => (
           <Card key={course.id} className="flex items-center gap-6 p-5">
             <div className="min-w-0 flex-1">
-              <p className="font-semibold">{course.title}</p>
+              <p className="font-semibold">{loc.course(course).title}</p>
               <ProgressBar className="mt-2" value={coursePercent(course.id)} />
             </div>
             <span className="text-lg font-bold text-ink-soft">

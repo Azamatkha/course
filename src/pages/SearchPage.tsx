@@ -5,12 +5,14 @@ import { Card } from "@/components/ui/card";
 import { Badge, DifficultyBadge } from "@/components/ui/badge";
 import { search } from "@/engine/search";
 import { useI18n } from "@/engine/i18n";
+import { useLocalize } from "@/engine/localize";
 
 export function SearchPage() {
   const [params, setParams] = useSearchParams();
   const [query, setQuery] = useState(params.get("q") ?? "");
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useI18n();
+  const loc = useLocalize();
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -47,7 +49,10 @@ export function SearchPage() {
             {t("search.noResults", { query })}
           </p>
         )}
-        {hits.map(({ entry, snippet }) => (
+        {hits.map(({ entry, snippet }) => {
+          const lc = loc.course(entry.course);
+          const ll = loc.lesson(entry.course.id, entry.lesson);
+          return (
           <Link
             key={entry.id}
             to={`/courses/${entry.course.id}/${entry.lesson.slug}`}
@@ -55,18 +60,19 @@ export function SearchPage() {
           >
             <Card className="group p-5 transition-all hover:-translate-y-0.5 hover:shadow-md">
               <div className="flex flex-wrap items-center gap-2">
-                <Badge>{entry.course.title}</Badge>
+                <Badge>{lc.title}</Badge>
                 <DifficultyBadge level={entry.lesson.difficulty} />
               </div>
               <h3 className="mt-2 font-semibold tracking-tight group-hover:text-accent">
-                {entry.lesson.title}
+                {ll.title}
               </h3>
               <p className="mt-1 text-sm text-ink-soft">
-                {snippet ?? entry.lesson.description}
+                {snippet ?? ll.description}
               </p>
             </Card>
           </Link>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
