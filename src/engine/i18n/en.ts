@@ -24,6 +24,7 @@ export const en = {
   "nav.menu": "Menu",
   "nav.toggleTheme": "Toggle theme",
   "nav.language": "Language",
+  "nav.skipToContent": "Skip to content",
 
   // Difficulty labels
   "difficulty.beginner": "beginner",
@@ -40,6 +41,7 @@ export const en = {
   "unit.complete": "complete",
   "unit.day": "day",
   "unit.days": "days",
+  "unit.step": "Step",
 
   // Home
   "home.badge": "{lessons} in-depth lessons · {time} of reading",
@@ -81,6 +83,9 @@ export const en = {
   // Course page
   "course.completeSuffix": "complete",
   "course.lessonRead": "read",
+  "course.start": "Start course",
+  "course.resume": "Resume",
+  "course.upNext": "Up next",
 
   // Lesson page
   "lesson.breadcrumbCourses": "Courses",
@@ -92,6 +97,12 @@ export const en = {
   "lesson.previous": "Previous",
   "lesson.next": "Next",
   "lesson.onThisPage": "On this page",
+  "lesson.markIncomplete": "Mark as unread",
+  "lesson.pager": "Lesson navigation",
+  "lesson.finishTitle": "Finished this lesson?",
+  "lesson.finishHint": "Mark it complete to track your progress and keep your streak.",
+  "lesson.doneTitle": "Lesson complete",
+  "lesson.doneHint": "Nice work — this one counts towards your course progress.",
 
   // Progress page
   "progress.title": "Your progress",

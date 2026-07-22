@@ -77,6 +77,59 @@ export const fastapiCourse: Course = {
       ],
     },
     {
+      id: "realtime",
+      title: "Real-Time & Streaming",
+      description: "WebSockets, server-sent events, and streaming large payloads.",
+      lessons: [
+        {
+          slug: "websockets-and-streaming",
+          title: "WebSockets, SSE, and Streaming",
+          description:
+            "Choosing between WebSockets and SSE, connection lifecycle and authorization, Redis pub/sub fan-out across processes, and streaming large exports and uploads at constant memory.",
+          difficulty: "advanced",
+          tags: ["websockets", "sse", "streaming", "redis", "pubsub", "realtime", "uploads"],
+        },
+      ],
+    },
+    {
+      id: "scaling",
+      title: "Scaling & Traffic",
+      description: "Background work, caching, and surviving more load than you planned for.",
+      lessons: [
+        {
+          slug: "background-tasks-and-workers",
+          title: "Background Tasks and Worker Queues",
+          description:
+            "BackgroundTasks vs Celery vs arq, idempotency under at-least-once delivery, the transactional outbox, dead-letter queues, and sizing workers.",
+          difficulty: "advanced",
+          tags: ["celery", "arq", "background tasks", "queues", "idempotency", "outbox", "retries"],
+        },
+        {
+          slug: "caching-and-rate-limiting",
+          title: "Caching, Rate Limiting, and Backpressure",
+          description:
+            "HTTP/CDN/Redis cache layers, key design and invalidation, stampede protection, token-bucket rate limiting in atomic Lua, and load shedding under overload.",
+          difficulty: "advanced",
+          tags: ["caching", "redis", "etag", "rate limiting", "token bucket", "backpressure", "cdn"],
+        },
+      ],
+    },
+    {
+      id: "operations",
+      title: "Observability",
+      description: "Knowing what your service is doing in production.",
+      lessons: [
+        {
+          slug: "middleware-and-observability",
+          title: "Middleware, Logging, and Observability",
+          description:
+            "ASGI vs BaseHTTPMiddleware, request-id propagation with ContextVar, structured JSON logs, OpenTelemetry tracing, and Prometheus metrics without cardinality explosions.",
+          difficulty: "advanced",
+          tags: ["middleware", "logging", "opentelemetry", "prometheus", "tracing", "metrics", "contextvar"],
+        },
+      ],
+    },
+    {
       id: "production",
       title: "Production",
       description: "Clean architecture, testing, and deployment.",

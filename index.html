@@ -9,8 +9,25 @@
       content="PyForge — a deep, book-quality learning platform for Python and AI engineering: Python foundations & internals, Django, FastAPI, AI engineering (LLMs, RAG, agents), and Docker. Available in English and Uzbek."
     />
     <title>PyForge — Advanced Python Backend Engineering</title>
+    <!-- Matches the surface token so the browser chrome doesn't flash white. -->
+    <meta
+      name="theme-color"
+      content="#fafaf9"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#0b0d11"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta name="color-scheme" content="light dark" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      display=swap keeps text visible during font load (no FOIT); the fallback
+      stack in tailwind.config.ts is metric-similar enough to keep the swap quiet.
+    -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"

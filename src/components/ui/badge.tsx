@@ -4,14 +4,12 @@ import type { Difficulty } from "@/engine/types";
 import { useI18n } from "@/engine/i18n";
 import type { DictKey } from "@/engine/i18n/en";
 
-export function Badge({
-  className,
-  ...props
-}: HTMLAttributes<HTMLSpanElement>) {
+export function Badge({ className, ...props }: HTMLAttributes<HTMLSpanElement>) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full border border-line bg-surface-sunken px-2.5 py-0.5 text-xs font-medium text-ink-soft",
+        "inline-flex items-center gap-1 rounded-full border border-line bg-surface-sunken",
+        "px-2.5 py-0.5 text-xs font-medium text-ink-soft",
         className
       )}
       {...props}
@@ -19,21 +17,44 @@ export function Badge({
   );
 }
 
+/**
+ * Difficulty maps onto the semantic status ramp, so light/dark contrast is
+ * handled once in the token layer rather than per-badge.
+ */
 const difficultyStyles: Record<Difficulty, string> = {
-  beginner:
-    "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-900",
-  intermediate:
-    "bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/50 dark:text-sky-300 dark:border-sky-900",
-  advanced:
-    "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-900",
-  expert:
-    "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-900",
+  beginner: "border-success/25 bg-success-soft/70 text-success",
+  intermediate: "border-info/25 bg-info-soft/70 text-info",
+  advanced: "border-warning/25 bg-warning-soft/70 text-warning",
+  expert: "border-danger/25 bg-danger-soft/70 text-danger",
+};
+
+/** Rank shown as filled pips — meaning survives without relying on colour. */
+const difficultyRank: Record<Difficulty, number> = {
+  beginner: 1,
+  intermediate: 2,
+  advanced: 3,
+  expert: 4,
 };
 
 export function DifficultyBadge({ level }: { level: Difficulty }) {
   const { t } = useI18n();
   const key = `difficulty.${level}` as DictKey;
+  const rank = difficultyRank[level];
+
   return (
-    <Badge className={cn("capitalize", difficultyStyles[level])}>{t(key)}</Badge>
+    <Badge className={cn("capitalize", difficultyStyles[level])}>
+      <span aria-hidden="true" className="flex items-center gap-[2px]">
+        {[1, 2, 3, 4].map((i) => (
+          <span
+            key={i}
+            className={cn(
+              "h-1 w-1 rounded-full bg-current",
+              i > rank && "opacity-25"
+            )}
+          />
+        ))}
+      </span>
+      {t(key)}
+    </Badge>
   );
 }

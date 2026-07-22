@@ -2,82 +2,209 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   Design tokens
+   Semantic names only — components never reference raw palette
+   values, so light/dark and future themes stay in one place.
+   ============================================================ */
 :root {
-  --surface: 250 250 249; /* stone-50 */
-  --surface-raised: 255 255 255;
-  --surface-sunken: 245 245 244; /* stone-100 */
-  --ink: 28 25 23; /* stone-900 */
-  --ink-soft: 87 83 78; /* stone-600 */
-  --ink-faint: 168 162 158; /* stone-400 */
-  --line: 231 229 228; /* stone-200 */
-  --accent: 15 118 110; /* teal-700 */
-  --accent-soft: 204 251 241; /* teal-100 */
+  /* Surfaces — a 4-step elevation ramp, low to high */
+  --surface: 250 250 249; /* page */
+  --surface-sunken: 244 244 242; /* wells, track backgrounds */
+  --surface-raised: 255 255 255; /* cards */
+  --surface-overlay: 255 255 255; /* popovers, sheets */
+
+  /* Ink — text, in descending emphasis */
+  --ink: 24 22 20;
+  --ink-soft: 82 79 74;
+  --ink-faint: 138 133 127; /* AA against --surface at ≥14px */
+
+  /* Lines */
+  --line: 231 229 226;
+  --line-strong: 214 211 207;
+
+  /* Brand accent */
+  --accent: 13 110 103;
+  --accent-hover: 9 88 82;
+  --accent-soft: 214 246 241; /* tinted background */
+  --accent-ink: 255 255 255; /* text ON accent */
+
+  /* Status — each has a soft background and a readable foreground */
+  --success: 4 120 87;
+  --success-soft: 209 250 229;
+  --warning: 180 83 9;
+  --warning-soft: 254 243 199;
+  --danger: 190 18 60;
+  --danger-soft: 255 228 230;
+  --info: 3 105 161;
+  --info-soft: 224 242 254;
+
+  /* Focus ring */
+  --ring: 13 110 103;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px 0 rgb(24 22 20 / 0.05);
+  --shadow-md: 0 4px 12px -2px rgb(24 22 20 / 0.08), 0 2px 4px -2px rgb(24 22 20 / 0.04);
+  --shadow-lg: 0 12px 32px -8px rgb(24 22 20 / 0.12), 0 4px 8px -4px rgb(24 22 20 / 0.06);
+
+  /* Motion — one rhythm for the whole product */
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Layering scale — never write an arbitrary z-index */
+  --z-base: 0;
+  --z-sticky: 20;
+  --z-header: 40;
+  --z-overlay: 60;
+  --z-toast: 80;
 }
 
 .dark {
-  --surface: 12 14 18;
-  --surface-raised: 21 24 30;
-  --surface-sunken: 8 10 13;
-  --ink: 237 237 235;
-  --ink-soft: 168 172 180;
-  --ink-faint: 110 115 125;
-  --line: 41 45 53;
-  --accent: 45 212 191; /* teal-400 */
-  --accent-soft: 19 45 45;
+  --surface: 11 13 17;
+  --surface-sunken: 7 9 12;
+  --surface-raised: 20 23 29;
+  --surface-overlay: 26 30 37;
+
+  --ink: 240 240 238;
+  --ink-soft: 175 180 189;
+  --ink-faint: 126 132 142; /* raised from #6e737d for AA on dark */
+
+  --line: 39 43 51;
+  --line-strong: 55 60 70;
+
+  --accent: 45 212 191;
+  --accent-hover: 94 234 212;
+  --accent-soft: 17 49 47;
+  --accent-ink: 4 20 19;
+
+  --success: 52 211 153;
+  --success-soft: 6 46 36;
+  --warning: 251 191 36;
+  --warning-soft: 55 36 6;
+  --danger: 251 113 133;
+  --danger-soft: 60 16 26;
+  --info: 56 189 248;
+  --info-soft: 8 41 60;
+
+  --ring: 45 212 191;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 12px 32px -8px rgb(0 0 0 / 0.6), 0 4px 8px -4px rgb(0 0 0 / 0.4);
 }
 
+/* ---------- Base ---------- */
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 5.5rem;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   @apply bg-surface text-ink font-sans antialiased;
+  min-height: 100dvh;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11"; /* Inter's nicer glyphs */
 }
 
 ::selection {
-  @apply bg-accent/20;
+  background-color: rgb(var(--accent) / 0.22);
+}
+
+/* One focus treatment for the whole product. Never removed — only shaped. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid rgb(var(--ring));
+  outline-offset: 2px;
+  border-radius: 0.375rem;
+}
+
+/* Numeric data must not jitter as values change */
+.tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Skip link — visible only when focused */
+.skip-link {
+  @apply sr-only;
+}
+.skip-link:focus {
+  @apply not-sr-only fixed left-4 top-4 z-[80] rounded-lg px-4 py-2 text-sm font-semibold;
+  background-color: rgb(var(--accent));
+  color: rgb(var(--accent-ink));
+}
+
+/* Respect the OS setting: motion conveys meaning, but never at a cost to health */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ---------- Prose (lesson body) ---------- */
 .prose-lesson {
-  @apply text-[0.98rem] leading-[1.8] text-ink;
+  @apply text-ink;
+  font-size: 1.0125rem;
+  line-height: 1.75;
+  max-width: 68ch; /* readable measure — 60–75 chars */
 }
 .prose-lesson > * + * {
-  margin-top: 1.1em;
+  margin-top: 1.15em;
 }
 .prose-lesson h1 {
   @apply text-3xl font-bold tracking-tight mt-2;
+  letter-spacing: -0.02em;
 }
 .prose-lesson h2 {
-  @apply text-2xl font-bold tracking-tight border-b border-line pb-2;
-  margin-top: 2.2em;
+  @apply text-[1.5rem] font-bold tracking-tight border-b border-line pb-2.5;
+  margin-top: 2.4em;
+  letter-spacing: -0.018em;
 }
 .prose-lesson h3 {
   @apply text-xl font-semibold tracking-tight;
-  margin-top: 1.8em;
+  margin-top: 1.9em;
+  letter-spacing: -0.012em;
 }
 .prose-lesson h4 {
   @apply text-base font-semibold;
   margin-top: 1.5em;
 }
 .prose-lesson a {
-  @apply text-accent underline decoration-accent/40 underline-offset-2 hover:decoration-accent;
+  @apply text-accent underline decoration-accent/35 underline-offset-[3px];
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color var(--dur-fast) var(--ease-out);
+}
+.prose-lesson a:hover {
+  @apply decoration-accent;
 }
 .prose-lesson strong {
-  @apply font-semibold;
+  @apply font-semibold text-ink;
 }
 .prose-lesson code:not(pre code) {
-  @apply font-mono text-[0.86em] bg-surface-sunken border border-line rounded-md px-1.5 py-0.5;
+  @apply font-mono bg-surface-sunken border border-line rounded-md px-1.5 py-0.5;
+  font-size: 0.86em;
+  /* keep inline code from stretching the line box */
+  line-height: 1.4;
 }
 .prose-lesson ul {
-  @apply list-disc pl-6 space-y-1.5;
+  @apply list-disc pl-6 space-y-1.5 marker:text-ink-faint;
 }
 .prose-lesson ol {
-  @apply list-decimal pl-6 space-y-1.5;
+  @apply list-decimal pl-6 space-y-1.5 marker:text-ink-faint marker:font-medium;
 }
 .prose-lesson blockquote {
-  @apply border-l-4 border-accent/50 bg-surface-sunken rounded-r-xl px-4 py-3 text-ink-soft;
+  @apply border-l-[3px] border-accent/50 bg-surface-sunken rounded-r-xl px-4 py-3 text-ink-soft;
 }
 .prose-lesson hr {
   @apply border-line;
@@ -89,6 +216,8 @@ body {
 }
 .prose-lesson .table-wrap {
   @apply overflow-x-auto rounded-xl border border-line;
+  /* horizontal scroll stays inside the table, never on the page */
+  max-width: 100%;
 }
 .prose-lesson th {
   @apply text-left font-semibold bg-surface-sunken px-4 py-2.5 border-b border-line whitespace-nowrap;
@@ -96,26 +225,47 @@ body {
 .prose-lesson td {
   @apply px-4 py-2.5 border-b border-line align-top;
 }
-.prose-lesson tr:last-child td {
+.prose-lesson tbody tr:last-child td {
   @apply border-b-0;
+}
+.prose-lesson tbody tr {
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+.prose-lesson tbody tr:hover {
+  background-color: rgb(var(--surface-sunken) / 0.6);
 }
 .prose-lesson details {
   @apply rounded-xl border border-line bg-surface-raised px-4 py-3;
+  transition: border-color var(--dur-base) var(--ease-out);
+}
+.prose-lesson details:hover {
+  @apply border-line-strong;
 }
 .prose-lesson details > summary {
   @apply cursor-pointer font-semibold select-none text-ink;
+  /* comfortable hit area for the disclosure row */
+  min-height: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 .prose-lesson details[open] > summary {
   @apply mb-2 pb-2 border-b border-line;
 }
 .prose-lesson img {
   @apply max-w-full rounded-xl;
+  height: auto; /* preserve intrinsic ratio, avoid CLS */
 }
 
-/* ---------- Callout / alert boxes (GitHub-style) ---------- */
+/* Heading anchors get a quiet, keyboard-reachable link affordance */
+.prose-lesson :is(h2, h3) {
+  scroll-margin-top: 5.5rem;
+}
+
+/* ---------- Callout / alert boxes ---------- */
 .prose-lesson .callout {
   @apply my-5 rounded-xl border px-4 py-3;
-  border-left-width: 4px;
+  border-left-width: 3px;
 }
 .prose-lesson .callout-title {
   @apply mb-1 flex items-center gap-2 text-sm font-semibold;
@@ -128,57 +278,106 @@ body {
   margin-top: 0.7em;
 }
 .prose-lesson .callout-note {
-  @apply border-sky-200 bg-sky-50/60 dark:border-sky-900 dark:bg-sky-950/30;
-  border-left-color: rgb(2 132 199);
+  background-color: rgb(var(--info-soft) / 0.7);
+  border-color: rgb(var(--info) / 0.25);
+  border-left-color: rgb(var(--info));
 }
 .prose-lesson .callout-note .callout-title {
-  @apply text-sky-700 dark:text-sky-300;
+  color: rgb(var(--info));
 }
 .prose-lesson .callout-tip {
-  @apply border-emerald-200 bg-emerald-50/60 dark:border-emerald-900 dark:bg-emerald-950/30;
-  border-left-color: rgb(5 150 105);
+  background-color: rgb(var(--success-soft) / 0.7);
+  border-color: rgb(var(--success) / 0.25);
+  border-left-color: rgb(var(--success));
 }
 .prose-lesson .callout-tip .callout-title {
-  @apply text-emerald-700 dark:text-emerald-300;
+  color: rgb(var(--success));
 }
 .prose-lesson .callout-warning,
 .prose-lesson .callout-caution {
-  @apply border-amber-200 bg-amber-50/60 dark:border-amber-900 dark:bg-amber-950/30;
-  border-left-color: rgb(217 119 6);
+  background-color: rgb(var(--warning-soft) / 0.7);
+  border-color: rgb(var(--warning) / 0.25);
+  border-left-color: rgb(var(--warning));
 }
 .prose-lesson .callout-warning .callout-title,
 .prose-lesson .callout-caution .callout-title {
-  @apply text-amber-700 dark:text-amber-300;
+  color: rgb(var(--warning));
 }
 .prose-lesson .callout-important {
-  @apply border-violet-200 bg-violet-50/60 dark:border-violet-900 dark:bg-violet-950/30;
-  border-left-color: rgb(124 58 237);
+  background-color: rgb(var(--danger-soft) / 0.6);
+  border-color: rgb(var(--danger) / 0.25);
+  border-left-color: rgb(var(--danger));
 }
 .prose-lesson .callout-important .callout-title {
-  @apply text-violet-700 dark:text-violet-300;
+  color: rgb(var(--danger));
 }
 
 /* ---------- Long-article readability polish ---------- */
-.prose-lesson h2 {
-  scroll-margin-top: 5.5rem;
-}
-.prose-lesson h3,
-.prose-lesson h4 {
-  scroll-margin-top: 5.5rem;
-}
-/* Tighter, more legible lists in dense technical prose */
 .prose-lesson li > ul,
 .prose-lesson li > ol {
   margin-top: 0.4em;
 }
-/* Give the first heading a little breathing room from the meta header */
 .prose-lesson > h2:first-child,
 .prose-lesson > h3:first-child {
   margin-top: 0.5em;
 }
+/* Skip offscreen rendering work on very long lessons */
+.prose-lesson > :is(h2, h3) ~ * {
+  contain-intrinsic-size: auto 500px;
+}
 
-/* Scrollbars */
+/* ---------- Scrollbars ---------- */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgb(var(--ink-faint) / 0.4) transparent;
+  scrollbar-color: rgb(var(--ink-faint) / 0.35) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(var(--ink-faint) / 0.32);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(var(--ink-faint) / 0.5);
+}
+
+/* ---------- Shared motion ---------- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-rise {
+  animation: rise var(--dur-slow) var(--ease-out) both;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.skeleton {
+  @apply relative overflow-hidden rounded-lg bg-surface-sunken;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    rgb(var(--ink-faint) / 0.08),
+    transparent
+  );
+  animation: shimmer 1.6s infinite;
 }

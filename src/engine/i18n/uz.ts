@@ -23,6 +23,7 @@ export const uz: Record<DictKey, string> = {
   "nav.menu": "Menyu",
   "nav.toggleTheme": "Mavzuni almashtirish",
   "nav.language": "Til",
+  "nav.skipToContent": "Asosiy qismga o‘tish",
 
   // Difficulty labels
   "difficulty.beginner": "boshlang‘ich",
@@ -39,6 +40,7 @@ export const uz: Record<DictKey, string> = {
   "unit.complete": "bajarildi",
   "unit.day": "kun",
   "unit.days": "kun",
+  "unit.step": "Bosqich",
 
   // Home
   "home.badge": "{lessons} ta chuqur dars · {time} o‘qish",
@@ -80,6 +82,9 @@ export const uz: Record<DictKey, string> = {
   // Course page
   "course.completeSuffix": "bajarildi",
   "course.lessonRead": "o‘qish",
+  "course.start": "Kursni boshlash",
+  "course.resume": "Davom etish",
+  "course.upNext": "Keyingi",
 
   // Lesson page
   "lesson.breadcrumbCourses": "Kurslar",
@@ -91,6 +96,12 @@ export const uz: Record<DictKey, string> = {
   "lesson.previous": "Oldingi",
   "lesson.next": "Keyingi",
   "lesson.onThisPage": "Ushbu sahifada",
+  "lesson.markIncomplete": "O‘qilmagan deb belgilash",
+  "lesson.pager": "Darslar bo‘ylab harakat",
+  "lesson.finishTitle": "Darsni tugatdingizmi?",
+  "lesson.finishHint": "Natijangiz saqlanishi va ketma-ketlik uzilmasligi uchun belgilab qo‘ying.",
+  "lesson.doneTitle": "Dars tugallandi",
+  "lesson.doneHint": "Barakalla — bu dars kurs natijangizga qo‘shildi.",
 
   // Progress page
   "progress.title": "Sizning natijalaringiz",
